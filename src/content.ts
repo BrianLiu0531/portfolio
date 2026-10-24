@@ -155,8 +155,9 @@ export const projects: Project[] = [
       { title: 'Indexed fuzzy search', detail: 'PostgreSQL pg_trgm GIN indexes keep ILIKE keyword search fast as listings grow.' },
     ],
     stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Docker'],
-    tests: '44 automated tests (API integration + component)',
+    tests: '45 automated tests (API integration + component)',
     github: `https://github.com/${GITHUB_USER}/job-portal`,
+    demo: 'https://hireloop-demo.onrender.com',
     demoLogins: [
       { role: 'Seeker', email: 'seeker@example.com', password: 'Seeker1234!' },
       { role: 'Employer', email: 'employer@example.com', password: 'Employer1234!' },
@@ -183,8 +184,9 @@ export const projects: Project[] = [
       { title: 'One authorisation module', detail: 'Every content route resolves its parent course and goes through the same “can teach / can learn” checks.' },
     ],
     stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Markdown'],
-    tests: '38 automated tests (API integration + component)',
+    tests: '39 automated tests (API integration + component)',
     github: `https://github.com/${GITHUB_USER}/lms`,
+    demo: 'https://kura-demo-pwdk.onrender.com',
     demoLogins: [
       { role: 'Student', email: 'student@example.com', password: 'Student1234!' },
       { role: 'Instructor', email: 'instructor@example.com', password: 'Teach1234!' },
@@ -211,8 +213,9 @@ export const projects: Project[] = [
       { title: 'CSV injection protection', detail: 'Exported cells are quoted and formula prefixes neutralised.' },
     ],
     stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Recharts'],
-    tests: '38 automated tests (API integration + component)',
+    tests: '39 automated tests (API integration + component)',
     github: `https://github.com/${GITHUB_USER}/expense-tracker`,
+    demo: 'https://ledgerly-demo-7rjb.onrender.com',
     demoLogins: [{ role: 'Demo', email: 'demo@example.com', password: 'Demo1234!' }],
   },
 ];

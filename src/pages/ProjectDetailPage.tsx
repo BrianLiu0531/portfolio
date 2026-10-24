@@ -88,6 +88,9 @@ export default function ProjectDetailPage() {
                 </li>
               ))}
             </ul>
+            {project.demo && (
+              <p className="muted small">The demo runs on a free plan that sleeps when idle, so the first visit can take up to a minute to wake up.</p>
+            )}
           </div>
         )}
       </section>
