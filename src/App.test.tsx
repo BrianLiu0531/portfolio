@@ -14,7 +14,8 @@ function renderAt(path: string) {
 }
 
 beforeAll(() => {
-  window.scrollTo = vi.fn();
+  // Recent browsers return a Promise from scrollTo, so mirror that here
+  window.scrollTo = vi.fn(() => Promise.resolve()) as unknown as typeof window.scrollTo;
 });
 
 describe('content', () => {
@@ -52,6 +53,19 @@ describe('pages', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(p.name);
     expect(screen.getByText(p.highlights[0].title)).toBeInTheDocument();
     expect(screen.getByText(p.demoLogins![0].email)).toBeInTheDocument();
+  });
+
+  it('navigates between pages from the menu without a reload', async () => {
+    const user = userEvent.setup();
+    renderAt('/');
+    const nav = screen.getByRole('navigation', { name: 'Main' });
+
+    await user.click(within(nav).getByRole('link', { name: 'About' }));
+    expect(screen.getByRole('heading', { level: 1, name: 'About me' })).toBeInTheDocument();
+    await user.click(within(nav).getByRole('link', { name: 'Projects' }));
+    expect(screen.getByRole('heading', { level: 1, name: 'Projects' })).toBeInTheDocument();
+    await user.click(within(nav).getByRole('link', { name: 'Contact' }));
+    expect(screen.getByRole('heading', { level: 1, name: 'Let’s work together' })).toBeInTheDocument();
   });
 
   it('shows a not-found page for unknown routes and slugs', () => {

@@ -14,8 +14,11 @@ export default function Layout() {
   const { theme, toggle } = useTheme();
   const { pathname } = useLocation();
 
-  // Start each page at the top, like a normal multi-page site
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  // Start each page at the top, like a normal multi-page site. Braces matter: recent
+  // browsers return a Promise from scrollTo, and React would call it as the cleanup.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="shell">
