@@ -9,7 +9,7 @@ export default function ContactPage() {
       <section className="stack">
         <h1>Let’s work together</h1>
         <p className="lead">
-          I’m looking for {profile.role.toLowerCase()} roles in {profile.location} or remote across Australia and New Zealand.
+          I’m looking for {profile.role.toLowerCase()} roles in {profile.targetLocation}, or remote across Australia.
         </p>
         <ul className="contact-list">
           <li>

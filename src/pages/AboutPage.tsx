@@ -25,7 +25,9 @@ export default function AboutPage() {
           </div>
           <div>
             <dt>Looking for</dt>
-            <dd>{profile.role} roles</dd>
+            <dd>
+              {profile.role} roles in {profile.targetLocation}
+            </dd>
           </div>
         </dl>
       </section>

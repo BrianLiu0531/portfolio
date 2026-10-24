@@ -32,61 +32,104 @@ export interface Experience {
   points: string[];
 }
 
-const GITHUB_USER = 'your-github-username'; // TODO
+const GITHUB_USER = 'your-github-username'; // TODO: your GitHub username
 
 export const profile = {
-  name: 'Your Name', // TODO
-  role: 'Junior Full Stack Developer', // TODO
-  location: 'Melbourne, VIC', // TODO
-  /** e.g. "Full working rights (Working Holiday visa)", "Australian PR", "NZ citizen" */
-  workRights: 'Full working rights · Working Holiday visa', // TODO
+  name: 'Cheng-En (Brian) Liu',
+  role: 'Full Stack Software Engineer',
+  location: 'Taichung, Taiwan · relocating to Australia',
+  /** Where you want to work — used in the hero and on the contact page */
+  targetLocation: 'Melbourne or Brisbane',
+  // TODO: update once the 417 is granted, e.g. 'Full working rights (Working Holiday visa) until 2027'
+  workRights: 'Working Holiday visa (subclass 417) lodged · open to 482 sponsorship',
   available: true,
-  headline: 'I build full-stack web apps with React, TypeScript, Node.js and PostgreSQL — tested, deployed and designed for real users.',
-  // TODO: 2–3 short paragraphs about you
+  headline:
+    '7+ years building web applications, back-end APIs and enterprise integrations with TypeScript, React, Node.js, Python/Django and C#/.NET.',
   about: [
-    'I’m a developer who enjoys turning messy real-world processes into simple, reliable software. My recent projects are full-stack TypeScript applications built for the Australian and New Zealand market — from GST-aware finance tracking to a job board with work-rights screening.',
-    'I care about the things that make software trustworthy: automated tests, sensible authorisation, accessible UI and clear documentation. Every project here has a CI pipeline, a Docker build and a README explaining the trade-offs I made.',
-    'Before moving into software I worked in [your previous field], which taught me [a transferable skill — e.g. communicating with customers, working under pressure, attention to detail].',
+    'I’m a full stack software engineer with more than seven years of experience across finance, ERP, IoT and gaming. I started working in software part-time while studying, and have since shipped everything from SAP Business ByDesign integrations to real-time multiplayer games.',
+    'Most recently I ported 71 browser games to a TypeScript and React stack, built a shared Colyseus multiplayer server, and integrated a leaderboard service with anti-cheat checks into 30 games. Before that I led the Django REST back end of a video advertising-monitoring system, built a Go wallet service and load-tested provider integrations with k6.',
+    'I pick up unfamiliar codebases quickly and work well remotely. I care about the things that make software trustworthy: tests, sensible authorisation, clear documentation and reliable deployments.',
   ],
-  email: 'you@example.com', // TODO
+  email: 'brianliu2924@gmail.com',
   github: `https://github.com/${GITHUB_USER}`,
-  linkedin: 'https://www.linkedin.com/in/your-profile', // TODO
+  linkedin: 'https://www.linkedin.com/in/cheng-en-liu-7825a1436',
   /** Put your CV at public/resume.pdf, or set to null to hide the button */
   resume: null as string | null, // TODO: 'resume.pdf'
 };
 
 export const skills: { group: string; items: string[] }[] = [
-  { group: 'Frontend', items: ['React', 'TypeScript', 'JavaScript (ES2022)', 'HTML & accessible markup', 'CSS / responsive design', 'TanStack Query', 'React Router', 'Vite'] },
-  { group: 'Backend', items: ['Node.js', 'Express', 'REST API design', 'Zod validation', 'JWT & cookie auth', 'Role-based access control'] },
-  { group: 'Data', items: ['PostgreSQL', 'Prisma ORM', 'SQL', 'Schema design & indexing', 'pg_trgm search'] },
-  { group: 'Quality & DevOps', items: ['Vitest', 'React Testing Library', 'Supertest', 'Docker', 'GitHub Actions CI', 'Git'] },
+  { group: 'Front end', items: ['TypeScript', 'React 19', 'Vue 3', 'PixiJS', 'Canvas 2D', 'Three.js', 'Zustand', 'TanStack Query', 'Vite', 'Tailwind CSS'] },
+  { group: 'Back end', items: ['Node.js', 'Express', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
+  { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
+  { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Vitest', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
 ];
 
-// TODO: replace with your real history (study, jobs, volunteering)
 export const experience: Experience[] = [
   {
-    title: 'Full Stack Developer (self-directed projects)',
-    org: 'Personal portfolio',
-    location: 'Remote',
-    period: '2026 — present',
+    title: 'Software Engineer',
+    org: 'Tai Kok Tsui Consulting Co., Ltd. (GameGen)',
+    location: 'Taichung, Taiwan',
+    period: 'May 2026 — Oct 2026',
     points: [
-      'Designed and shipped three full-stack TypeScript applications with role-based access, PostgreSQL and automated test suites (100+ tests in total).',
-      'Set up Docker builds and GitHub Actions pipelines that run type checks, unit and integration tests on every push.',
+      'Ported 71 HTML5 and native games from Construct 2, Godot, Unity, Phaser and Cocos2d-x to React, TypeScript and PixiJS; sole named developer on 64.',
+      'Built a shared real-time multiplayer server (Node.js, Colyseus, pnpm monorepo) with server-authoritative results for 1v1 online modes.',
+      'Integrated a leaderboard service into 30 games with anti-cheat run sessions, calibrated by simulation bots playing the real game engines.',
     ],
   },
   {
-    title: '[Previous role]',
-    org: '[Company]',
-    location: '[City, Country]',
-    period: '20XX — 20XX',
-    points: ['[Achievement with a number, e.g. "Reduced weekly reporting time by 30% by automating a spreadsheet"]', '[Another responsibility relevant to software work]'],
+    title: 'Full Stack Engineer',
+    org: 'Faith Technology Co., Ltd.',
+    location: 'Taichung, Taiwan',
+    period: 'Oct 2025 — Apr 2026',
+    points: [
+      'Lead back-end developer of a video advertising-monitoring system for the Institute for Information Industry (Django REST Framework, MySQL).',
+      'Built role-based access control, audit logging and production security controls; deployed with Docker, Nginx and GitHub Actions CI/CD.',
+      'Independently built a Laravel Nova back office and a Vue 3 e-commerce storefront.',
+    ],
   },
   {
-    title: '[Degree or course]',
-    org: '[University / bootcamp]',
-    location: '[City]',
-    period: '20XX — 20XX',
-    points: ['[Relevant subjects, final project or award]'],
+    title: 'Back-end Engineer',
+    org: 'Yongzhou Digital Technology Co., Ltd.', // TODO: confirm the official English name
+    location: 'Taipei, Taiwan',
+    period: 'Nov 2024 — Sep 2025',
+    points: [
+      'Integrated 18+ third-party game provider APIs (PHP, Laravel): transfer wallets, bet-report sync and settlement.',
+      'Built a Go wallet service with transaction rollback, and wrote k6 load tests for 12 providers’ transfer flows.',
+    ],
+  },
+  {
+    title: 'R&D Engineer',
+    org: 'Servconn Systems Co., Ltd.',
+    location: 'New Taipei, Taiwan',
+    period: 'Jun 2024 — Sep 2024',
+    points: ['Developed a C# WPF application and APIs for RFID-based inventory for semiconductor manufacturers (Impinj, Zebra readers).'],
+  },
+  {
+    title: 'Assistant Systems Analyst',
+    org: 'Tata Consultancy Services (client: Taishin International Bank)',
+    location: 'Taiwan (remote)',
+    period: 'Jan 2023 — May 2024',
+    points: [
+      'Migrated banking applications from WinForms to ASP.NET WebForms with modular C# components and SQL Server stored procedures.',
+      'One of two engineers retained from the original 12-person team through to project completion.',
+    ],
+  },
+  {
+    title: 'Associate Software Engineer',
+    org: 'ISCOM Information Co., Ltd.',
+    location: 'Taichung, Taiwan',
+    period: 'Aug 2018 — Dec 2022',
+    points: [
+      'Built modules for a Django finance portal integrated with SAP Business ByDesign via SOAP, including journal-entry import with bulk posting.',
+      'Customised an e-invoice platform and SAP print forms for multiple clients; contributed to ASP.NET MVC portals and gathered B2B requirements.',
+    ],
+  },
+  {
+    title: 'Information Management (undergraduate, evening program)',
+    org: 'Hsiuping University of Science and Technology',
+    location: 'Taichung, Taiwan',
+    period: '2018 — 2022',
+    points: ['Studied part-time while working; degree not completed.'],
   },
 ];
 

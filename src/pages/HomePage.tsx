@@ -11,7 +11,7 @@ export default function HomePage() {
       <section className="hero">
         {profile.available && (
           <p className="availability">
-            <span className="dot" aria-hidden /> Open to work · {profile.location}
+            <span className="dot" aria-hidden /> Open to work in {profile.targetLocation}
           </p>
         )}
         <h1>
@@ -66,8 +66,8 @@ export default function HomePage() {
 
       <section className="card cta">
         <div>
-          <h2>Hiring a junior developer?</h2>
-          <p className="muted">I’m available for full-time, contract and graduate roles across Australia and New Zealand.</p>
+          <h2>Hiring a full stack engineer?</h2>
+          <p className="muted">I’m available for full-time and contract roles in {profile.targetLocation}, or remote across Australia.</p>
         </div>
         <Link to="/contact" className="btn btn-primary">
           Let’s talk
