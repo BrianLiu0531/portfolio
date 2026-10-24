@@ -32,7 +32,7 @@ export interface Experience {
   points: string[];
 }
 
-const GITHUB_USER = 'your-github-username'; // TODO: your GitHub username
+const GITHUB_USER = 'BrianLiu0531';
 
 export const profile = {
   name: 'Cheng-En (Brian) Liu',

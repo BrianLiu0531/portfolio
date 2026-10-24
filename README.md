@@ -1,10 +1,10 @@
 # Developer Portfolio
 
-![Deploy](https://github.com/<your-github-username>/portfolio/actions/workflows/deploy.yml/badge.svg)
+![Deploy](https://github.com/BrianLiu0531/portfolio/actions/workflows/deploy.yml/badge.svg)
 
 My personal portfolio: a fast, accessible React site showcasing my full-stack projects, skills and experience.
 
-**Live:** _https://your-github-username.github.io/portfolio_
+**Live:** https://brianliu0531.github.io/portfolio/
 
 ## Features
 
