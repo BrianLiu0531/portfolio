@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- TODO: replace with your own name and summary -->
+    <title>Your Name — Full Stack Developer</title>
+    <meta name="description" content="Full stack developer (React, TypeScript, Node.js, PostgreSQL) based in Australia / New Zealand." />
+    <meta property="og:title" content="Your Name — Full Stack Developer" />
+    <meta property="og:description" content="Projects, skills and contact details." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      // Apply the saved theme before first paint to avoid a flash
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
