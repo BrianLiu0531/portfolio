@@ -65,7 +65,7 @@ export const skills: { group: string; items: string[] }[] = [
   { group: 'Back end', items: ['Node.js', 'Express', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
   { group: 'Web3', items: ['EVM / JSON-RPC', 'go-ethereum', 'ERC-20 event indexing', 'Reorg & finality handling', 'Base (OP Stack)', 'Wallet & settlement systems'] },
   { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
-  { group: 'Cloud', items: ['AWS Lambda', 'SQS (FIFO, DLQ)', 'DynamoDB', 'IAM & GitHub OIDC', 'CloudWatch', 'Terraform', 'Render', 'Neon'] },
+  { group: 'Cloud', items: ['AWS Lambda', 'SQS (FIFO, DLQ)', 'DynamoDB', 'S3 (multipart, lifecycle)', 'IAM & GitHub OIDC', 'CloudWatch', 'Terraform', 'Render', 'Neon'] },
   { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Prometheus', 'Vitest', 'Go testing', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
 ];
 
@@ -217,6 +217,46 @@ export const projects: Project[] = [
     stack: ['Go', 'AWS Lambda', 'SQS', 'DynamoDB', 'Terraform', 'GitHub Actions'],
     tests: '14 automated tests against DynamoDB Local and ElasticMQ, including an end-to-end run and two concurrency tests',
     github: `https://github.com/${GITHUB_USER}/usdc-deposit-ledger`,
+  },
+  {
+    slug: 'resumable-uploads',
+    name: 'Resumable Uploads',
+    tagline: 'Crash-safe large file uploads to S3',
+    emoji: '📤',
+    colors: ['#0e7490', '#22d3ee'],
+    summary:
+      'Upload large files over unreliable connections: pause, lose the network or close the tab, and the upload continues from the last byte the server stored. Implements the tus protocol in Django on top of S3 multipart uploads.',
+    problem:
+      'A plain file upload starts again from zero when the connection drops, and a naïve resumable endpoint silently corrupts files when a retry overlaps the original request — the check-then-append race I once shipped in a prototype.',
+    features: [
+      'tus 1.0 with creation, expiration, termination and checksum (md5/sha1/sha256) extensions',
+      'Keeps the bytes of an interrupted request and resumes from the server’s offset; survives closing the tab',
+      'S3 multipart storage: exact 5 MiB parts, leftover bytes held as a pending object, no server-side state between requests',
+      'React client with pause/resume, a simulated network drop and a live protocol log',
+      'Public demo kept inside the free tier: per-file, per-IP and daily quotas plus S3 lifecycle rules',
+    ],
+    highlights: [
+      {
+        title: 'No double-append race',
+        detail:
+          'PATCH locks the upload row (SELECT … FOR UPDATE NOWAIT), checks the offset and writes in one transaction. A test sends the same chunk from two threads; removing the lock makes it fail with the chunk written twice.',
+      },
+      {
+        title: 'Retry-safe at every crash point',
+        detail:
+          'Part numbers come from committed state and S3 replaces re-uploaded parts; each pending object has its own key until the commit; a completed-but-uncommitted upload is recognised on retry. Both crash points are tested.',
+      },
+      {
+        title: 'Found in production, fixed with a test',
+        detail:
+          'The live deploy exposed presigned URLs signed for us-east-1: boto3 ignores AWS_REGION, and presigning uses the global endpoint. Fixed and verified against real S3; the tests now mirror Render’s environment.',
+      },
+    ],
+    stack: ['Python', 'Django', 'PostgreSQL', 'Amazon S3', 'React', 'TypeScript', 'Terraform'],
+    tests: '60 automated tests (57 backend against PostgreSQL, each on local storage and S3), plus a throttled end-to-end run in Chrome',
+    github: `https://github.com/${GITHUB_USER}/resumable-uploads`,
+    demo: 'https://resumable-uploads.onrender.com',
+    screenshot: 'screenshots/uploads.webp',
   },
   {
     slug: 'job-portal',
