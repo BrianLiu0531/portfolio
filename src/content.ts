@@ -65,6 +65,7 @@ export const skills: { group: string; items: string[] }[] = [
   { group: 'Back end', items: ['Node.js', 'Express', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
   { group: 'Web3', items: ['EVM / JSON-RPC', 'go-ethereum', 'ERC-20 event indexing', 'Reorg & finality handling', 'Base (OP Stack)', 'Wallet & settlement systems'] },
   { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
+  { group: 'Cloud', items: ['AWS Lambda', 'SQS (FIFO, DLQ)', 'DynamoDB', 'IAM & GitHub OIDC', 'CloudWatch', 'Terraform', 'Render', 'Neon'] },
   { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Prometheus', 'Vitest', 'Go testing', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
 ];
 
@@ -173,11 +174,49 @@ export const projects: Project[] = [
       },
     ],
     stack: ['Go', 'go-ethereum', 'PostgreSQL', 'Prometheus', 'Docker', 'GitHub Actions'],
-    tests: '27 automated tests plus a randomised reorg simulation (against PostgreSQL); 42 edge cases documented',
+    tests: '30 automated tests plus a randomised reorg simulation (against PostgreSQL); 42 edge cases documented',
     github: `https://github.com/${GITHUB_USER}/base-usdc-indexer`,
     demo: 'https://codespaces.new/BrianLiu0531/base-usdc-indexer?quickstart=1',
     demoLabel: 'Run it in Codespaces',
     screenshot: 'screenshots/indexer.webp',
+  },
+  {
+    slug: 'usdc-deposit-ledger',
+    name: 'USDC Deposit Ledger',
+    tagline: 'Exactly-once crediting on AWS',
+    emoji: '🧾',
+    colors: ['#7c2d12', '#f59e0b'],
+    summary:
+      'The crediting half of the deposit system: the indexer’s events flow through an SQS FIFO queue to a Go Lambda function that credits accounts in DynamoDB exactly once, however often a message is delivered.',
+    problem:
+      'Queues deliver at least once, retries overlap and a reorg can undo a deposit. A ledger that checks “already processed?” and then writes will eventually double-credit when two copies arrive together.',
+    features: [
+      'SQS FIFO with one message group per transfer, so a reorg revert never overtakes its credit',
+      'Partial batch failures and a dead-letter queue with CloudWatch → SNS alarms',
+      'Single-table DynamoDB ledger: balances, ledger lines and idempotency markers with TTL',
+      'Terraform for everything, deployed from GitHub Actions through OIDC — no long-lived AWS keys',
+      'Runs locally with ElasticMQ and DynamoDB Local, using the same handler as the Lambda',
+    ],
+    highlights: [
+      {
+        title: 'Idempotent by construction',
+        detail:
+          'Each event is one TransactWriteItems that also writes an EVENT# marker with attribute_not_exists, so a duplicate changes nothing. A test runs 20 concurrent workers on the same event and checks it is credited exactly once.',
+      },
+      {
+        title: 'Verified with the indexer on live data',
+        detail:
+          'Live Base Sepolia transfers went indexer → SQS → consumer → DynamoDB, and the ledger matched the indexer’s totals exactly — also after every event was published a second time.',
+      },
+      {
+        title: 'Least-privilege IAM',
+        detail:
+          'The deploy role only trusts this repo’s main branch and can only manage resources named usdc-ledger-*. The indexer gets a policy that allows sqs:SendMessage on one queue and nothing else.',
+      },
+    ],
+    stack: ['Go', 'AWS Lambda', 'SQS', 'DynamoDB', 'Terraform', 'GitHub Actions'],
+    tests: '10 automated tests against DynamoDB Local and ElasticMQ, including an end-to-end run and a concurrency test',
+    github: `https://github.com/${GITHUB_USER}/usdc-deposit-ledger`,
   },
   {
     slug: 'job-portal',
