@@ -169,7 +169,7 @@ export const projects: Project[] = [
       },
     ],
     stack: ['Go', 'go-ethereum', 'PostgreSQL', 'Prometheus', 'Docker', 'GitHub Actions'],
-    tests: '23 automated tests plus a randomised reorg simulation (against PostgreSQL)',
+    tests: '27 automated tests plus a randomised reorg simulation (against PostgreSQL); 42 edge cases documented',
     github: `https://github.com/${GITHUB_USER}/base-usdc-indexer`,
   },
   {
