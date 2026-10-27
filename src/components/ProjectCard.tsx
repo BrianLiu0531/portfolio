@@ -49,7 +49,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           </Link>
           {project.demo && (
             <a href={project.demo} className="btn btn-small" target="_blank" rel="noreferrer noopener">
-              Live demo ↗
+              {project.demoLabel ?? 'Live demo'} ↗
             </a>
           )}
           <a href={project.github} className="btn btn-small" target="_blank" rel="noreferrer noopener">

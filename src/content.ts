@@ -19,6 +19,8 @@ export interface Project {
   tests: string;
   github: string;
   demo?: string;
+  /** Label for the demo button (default "Live demo") */
+  demoLabel?: string;
   /** Optional screenshot inside /public, e.g. "screenshots/ledgerly.png" */
   screenshot?: string;
   demoLogins?: { role: string; email: string; password: string }[];
@@ -44,10 +46,11 @@ export const profile = {
   workRights: 'Working Holiday visa (subclass 417) lodged · open to 482 sponsorship',
   available: true,
   headline:
-    '7+ years building web applications, back-end APIs and enterprise integrations with TypeScript, React, Node.js, Python/Django and C#/.NET.',
+    '7+ years building web applications, back-end APIs and enterprise integrations with TypeScript, React, Node.js, Go, Python/Django and C#/.NET.',
   about: [
     'I’m a full stack software engineer with more than seven years of experience across finance, ERP, IoT and gaming. I started working in software part-time while studying, and have since shipped everything from SAP Business ByDesign integrations to real-time multiplayer games.',
     'Most recently I ported 71 browser games to a TypeScript and React stack, built a shared Colyseus multiplayer server, and integrated a leaderboard service with anti-cheat checks into 30 games. Before that I led the Django REST back end of a video advertising-monitoring system, built a Go wallet service and load-tested provider integrations with k6.',
+    'Outside work I build infrastructure for payments on public blockchains: a Go indexer that tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once — the same correctness problems I dealt with in wallet and settlement systems.',
     'I pick up unfamiliar codebases quickly and work well remotely. I care about the things that make software trustworthy: tests, sensible authorisation, clear documentation and reliable deployments.',
   ],
   email: 'brianliu2924@gmail.com',
@@ -60,8 +63,9 @@ export const profile = {
 export const skills: { group: string; items: string[] }[] = [
   { group: 'Front end', items: ['TypeScript', 'React 19', 'Vue 3', 'PixiJS', 'Canvas 2D', 'Three.js', 'Zustand', 'TanStack Query', 'Vite', 'Tailwind CSS'] },
   { group: 'Back end', items: ['Node.js', 'Express', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
-  { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'EVM / go-ethereum', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
-  { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Vitest', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
+  { group: 'Web3', items: ['EVM / JSON-RPC', 'go-ethereum', 'ERC-20 event indexing', 'Reorg & finality handling', 'Base (OP Stack)', 'Wallet & settlement systems'] },
+  { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
+  { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Prometheus', 'Vitest', 'Go testing', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
 ];
 
 export const experience: Experience[] = [
@@ -171,6 +175,9 @@ export const projects: Project[] = [
     stack: ['Go', 'go-ethereum', 'PostgreSQL', 'Prometheus', 'Docker', 'GitHub Actions'],
     tests: '27 automated tests plus a randomised reorg simulation (against PostgreSQL); 42 edge cases documented',
     github: `https://github.com/${GITHUB_USER}/base-usdc-indexer`,
+    demo: 'https://codespaces.new/BrianLiu0531/base-usdc-indexer?quickstart=1',
+    demoLabel: 'Run it in Codespaces',
+    screenshot: 'screenshots/indexer.webp',
   },
   {
     slug: 'job-portal',
@@ -195,6 +202,7 @@ export const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Docker'],
     tests: '45 automated tests (API integration + component)',
     github: `https://github.com/${GITHUB_USER}/job-portal`,
+    screenshot: 'screenshots/hireloop.webp',
     demo: 'https://hireloop-demo.onrender.com',
     demoLogins: [
       { role: 'Seeker', email: 'seeker@example.com', password: 'Seeker1234!' },
@@ -224,6 +232,7 @@ export const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Markdown'],
     tests: '39 automated tests (API integration + component)',
     github: `https://github.com/${GITHUB_USER}/lms`,
+    screenshot: 'screenshots/kura.webp',
     demo: 'https://kura-demo-pwdk.onrender.com',
     demoLogins: [
       { role: 'Student', email: 'student@example.com', password: 'Student1234!' },
@@ -253,6 +262,7 @@ export const projects: Project[] = [
     stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Recharts'],
     tests: '39 automated tests (API integration + component)',
     github: `https://github.com/${GITHUB_USER}/expense-tracker`,
+    screenshot: 'screenshots/ledgerly.webp',
     demo: 'https://ledgerly-demo-7rjb.onrender.com',
     demoLogins: [{ role: 'Demo', email: 'demo@example.com', password: 'Demo1234!' }],
   },

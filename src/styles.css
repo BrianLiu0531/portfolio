@@ -125,7 +125,7 @@ input:focus-visible, textarea:focus-visible, a:focus-visible, button:focus-visib
 .project-body h3 a { color: var(--text); text-decoration: none; }
 .project-body h3 a:hover { color: var(--accent-strong); }
 .project-links { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.4rem; }
-.cover { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.cover { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; }
 .cover-large { border-radius: var(--radius); }
 .cover-generated { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4rem; color: #fff; }
 .cover-emoji { font-size: 3.2rem; filter: drop-shadow(0 4px 12px rgb(0 0 0 / 0.2)); }

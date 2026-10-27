@@ -26,7 +26,7 @@ export default function ProjectDetailPage() {
         <div className="row">
           {project.demo && (
             <a href={project.demo} className="btn btn-primary" target="_blank" rel="noreferrer noopener">
-              Live demo ↗
+              {project.demoLabel ?? 'Live demo'} ↗
             </a>
           )}
           <a href={project.github} className={`btn ${project.demo ? '' : 'btn-primary'}`} target="_blank" rel="noreferrer noopener">
