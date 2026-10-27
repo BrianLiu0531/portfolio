@@ -20,7 +20,7 @@ export default function ProjectsPage() {
     <div className="stack">
       <div>
         <h1>Projects</h1>
-        <p className="muted">Full-stack applications with tests, CI and documentation. Each one has a demo account you can log in with.</p>
+        <p className="muted">Full-stack applications and back-end services, each with tests, CI and documentation. The web apps have a live demo with ready-made accounts.</p>
       </div>
 
       <div className="filters" role="group" aria-label="Filter by technology">

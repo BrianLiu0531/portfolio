@@ -48,7 +48,7 @@ describe('pages', () => {
   });
 
   it('renders a case study with highlights and demo logins', () => {
-    const p = projects[0];
+    const p = projects.find((x) => x.demoLogins)!;
     renderAt(`/projects/${p.slug}`);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(p.name);
     expect(screen.getByText(p.highlights[0].title)).toBeInTheDocument();

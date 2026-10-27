@@ -60,7 +60,7 @@ export const profile = {
 export const skills: { group: string; items: string[] }[] = [
   { group: 'Front end', items: ['TypeScript', 'React 19', 'Vue 3', 'PixiJS', 'Canvas 2D', 'Three.js', 'Zustand', 'TanStack Query', 'Vite', 'Tailwind CSS'] },
   { group: 'Back end', items: ['Node.js', 'Express', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
-  { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
+  { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'EVM / go-ethereum', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
   { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Vitest', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
 ];
 
@@ -134,6 +134,44 @@ export const experience: Experience[] = [
 ];
 
 export const projects: Project[] = [
+  {
+    slug: 'base-usdc-indexer',
+    name: 'Base USDC Indexer',
+    tagline: 'Reorg-safe deposit indexer for Base',
+    emoji: '⛓️',
+    colors: ['#1e3a8a', '#3b82f6'],
+    summary:
+      'A Go service that watches USDC transfers to and from a set of addresses on Base, records each one exactly once, follows it from pending to finalized, and survives chain reorgs, RPC outages and crashes.',
+    problem:
+      'Exchanges and wallets have to credit on-chain deposits without double-crediting a retried log or crediting a transfer that a reorg later removes. Polling eth_getLogs in a loop gets both wrong.',
+    features: [
+      'Tracks every transfer through pending → safe → finalized using the OP Stack block tags',
+      'Detects reorgs by parent hash, walks back to the common ancestor and rewinds atomically, keeping an audit trail',
+      'Transactional outbox emits transfer.confirmed (and compensating transfer.reverted) events with deterministic IDs',
+      'Reconciles indexed balances against balanceOf on chain and alerts on any drift',
+      'HTTP API, Prometheus metrics, multi-RPC failover, adaptive log ranges and rate limiting',
+    ],
+    highlights: [
+      {
+        title: 'Exactly-once by construction',
+        detail:
+          'A unique key on (tx hash, log index), and each batch, cursor and outbox event committed in one transaction that fails if another writer moved the cursor.',
+      },
+      {
+        title: 'Randomised chain simulation',
+        detail:
+          'Tests mine, reorg, finalize, fail RPC calls and restart at random, then check the database equals the canonical chain. CI runs 100 seeds on every push.',
+      },
+      {
+        title: 'Verified on a real network',
+        detail:
+          'Indexed live Base Sepolia traffic through the public RPC’s 200-block and 25 req/s limits, with balanceOf reconciliation matching to the last unit.',
+      },
+    ],
+    stack: ['Go', 'go-ethereum', 'PostgreSQL', 'Prometheus', 'Docker', 'GitHub Actions'],
+    tests: '23 automated tests plus a randomised reorg simulation (against PostgreSQL)',
+    github: `https://github.com/${GITHUB_USER}/base-usdc-indexer`,
+  },
   {
     slug: 'job-portal',
     name: 'Hireloop',
