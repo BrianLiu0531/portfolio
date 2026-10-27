@@ -204,9 +204,9 @@ export const projects: Project[] = [
           'Each event is one TransactWriteItems that also writes an EVENT# marker with attribute_not_exists, so a duplicate changes nothing. A test runs 20 concurrent workers on the same event and checks it is credited exactly once.',
       },
       {
-        title: 'Verified with the indexer on live data',
+        title: 'Deployed and verified on AWS',
         detail:
-          'Live Base Sepolia transfers went indexer → SQS → consumer → DynamoDB, and the ledger matched the indexer’s totals exactly — also after every event was published a second time.',
+          'Running in ap-southeast-2, deployed by GitHub Actions through OIDC. Live Base Sepolia transfers flowed indexer → SQS → Lambda → DynamoDB and the ledger matched the indexer exactly. The run exposed DynamoDB TransactionConflicts between parallel invocations, now retried in place.',
       },
       {
         title: 'Least-privilege IAM',
@@ -215,7 +215,7 @@ export const projects: Project[] = [
       },
     ],
     stack: ['Go', 'AWS Lambda', 'SQS', 'DynamoDB', 'Terraform', 'GitHub Actions'],
-    tests: '10 automated tests against DynamoDB Local and ElasticMQ, including an end-to-end run and a concurrency test',
+    tests: '14 automated tests against DynamoDB Local and ElasticMQ, including an end-to-end run and two concurrency tests',
     github: `https://github.com/${GITHUB_USER}/usdc-deposit-ledger`,
   },
   {
