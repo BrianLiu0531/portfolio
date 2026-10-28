@@ -50,7 +50,7 @@ export const profile = {
   about: [
     'I’m a full stack software engineer with more than seven years of experience across finance, ERP, IoT and gaming. I started working in software part-time while studying, and have since shipped everything from SAP Business ByDesign integrations to real-time multiplayer games.',
     'Most recently I ported 71 browser games to a TypeScript and React stack, built a shared Colyseus multiplayer server, and integrated a leaderboard service with anti-cheat checks into 30 games. Before that I led the Django REST back end of a video advertising-monitoring system, built a Go wallet service and load-tested provider integrations with k6.',
-    'Outside work I build infrastructure for payments on public blockchains: a Go indexer that tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once — the same correctness problems I dealt with in wallet and settlement systems.',
+    'Outside work I build infrastructure for payments on public blockchains: a Go indexer that tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once — the same correctness problems I dealt with in wallet and settlement systems. I also built Rally, a real-time multiplayer server with client prediction and reconnection, load tested to 500 concurrent players.',
     'I pick up unfamiliar codebases quickly and work well remotely. I care about the things that make software trustworthy: tests, sensible authorisation, clear documentation and reliable deployments.',
   ],
   email: 'brianliu2924@gmail.com',
@@ -63,6 +63,7 @@ export const profile = {
 export const skills: { group: string; items: string[] }[] = [
   { group: 'Front end', items: ['TypeScript', 'React 19', 'Vue 3', 'PixiJS', 'Canvas 2D', 'Three.js', 'Zustand', 'TanStack Query', 'Vite', 'Tailwind CSS'] },
   { group: 'Back end', items: ['Node.js', 'Express', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
+  { group: 'Real-time', items: ['WebSockets', 'Authoritative game servers', 'Client prediction & reconciliation', 'Interpolation', 'Reconnection & session resume', 'Load testing'] },
   { group: 'Web3', items: ['EVM / JSON-RPC', 'go-ethereum', 'ERC-20 event indexing', 'Reorg & finality handling', 'Base (OP Stack)', 'Wallet & settlement systems'] },
   { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
   { group: 'Cloud', items: ['AWS Lambda', 'SQS (FIFO, DLQ)', 'DynamoDB', 'S3 (multipart, lifecycle)', 'IAM & GitHub OIDC', 'CloudWatch', 'Terraform', 'Render', 'Neon'] },
@@ -257,6 +258,48 @@ export const projects: Project[] = [
     github: `https://github.com/${GITHUB_USER}/resumable-uploads`,
     demo: 'https://resumable-uploads.onrender.com',
     screenshot: 'screenshots/uploads.webp',
+  },
+  {
+    slug: 'rally',
+    name: 'Rally',
+    tagline: 'Real-time multiplayer netcode over WebSockets',
+    emoji: '🏓',
+    colors: ['#6d28d9', '#a78bfa'],
+    summary:
+      'A two-player real-time game built from scratch to show the netcode behind multiplayer games: a server-authoritative 60 Hz simulation, client-side prediction with reconciliation, interpolation, and matches that survive a dropped connection.',
+    problem:
+      'Online games have to feel instant while the server stays the only source of truth, and players lose their connection all the time. Getting that right means sequence numbers, acknowledgements and reconnection rules that hold up under latency, jitter and abuse.',
+    features: [
+      'Authoritative fixed-timestep simulation at 60 Hz with 20 Hz snapshots; clients send only a direction, never positions',
+      'Client-side prediction reconciled against acknowledged inputs; ball and opponent interpolated 100 ms in the past',
+      'Reconnection with session tokens: the match pauses for 15 s, resumes after a reload, otherwise forfeits',
+      'Quick match, private room codes and a bot opponent',
+      'Rate limiting, message validation, size caps, heartbeats, backpressure and Prometheus metrics',
+      'A netcode panel in the demo: add latency, turn prediction off, or drop the connection',
+    ],
+    highlights: [
+      {
+        title: 'Three netcode bugs found by measuring',
+        detail:
+          'Probes under simulated latency exposed the server extrapolating late inputs, stale sequence numbers after a reconnect, and a reconnect race. All three are fixed and tested; the prediction error is now 0.',
+      },
+      {
+        title: 'Load tested',
+        detail:
+          '500 concurrent clients (250 matches) at the full 60 ticks/s with 0 errors or drops, on one CPU shared with the load generator. CI runs a 200-client smoke test on every push.',
+      },
+      {
+        title: 'Deterministic physics',
+        detail:
+          'A pure step function with a seeded RNG, shared by the server and the client predictor. The same inputs replay identically, and a swept collision test stops the ball tunnelling at top speed.',
+      },
+    ],
+    stack: ['TypeScript', 'Node.js', 'WebSockets (ws)', 'Canvas', 'Vite', 'Prometheus', 'Docker'],
+    tests: '35 automated tests, including the server over real WebSockets (reconnects, forfeits, flooding, oversized frames, heartbeats), plus a load test',
+    github: `https://github.com/${GITHUB_USER}/rally`,
+    demo: 'https://rally-6flz.onrender.com',
+    demoLabel: 'Play it',
+    screenshot: 'screenshots/rally.webp',
   },
   {
     slug: 'job-portal',
