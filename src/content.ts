@@ -50,7 +50,7 @@ export const profile = {
   about: [
     'I’m a full stack software engineer with more than seven years of experience across finance, ERP, IoT and gaming. I started working in software part-time while studying, and have since shipped everything from SAP Business ByDesign integrations to real-time multiplayer games.',
     'Most recently I ported 71 browser games to a TypeScript and React stack, built a shared Colyseus multiplayer server, and integrated a leaderboard service with anti-cheat checks into 30 games. Before that I led the Django REST back end of a video advertising-monitoring system, built a Go wallet service and load-tested provider integrations with k6.',
-    'Outside work I build infrastructure for payments on public blockchains: a Go indexer that tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once — the same correctness problems I dealt with in wallet and settlement systems. I also built Rally, a real-time multiplayer server with client prediction and reconnection, load tested to 500 concurrent players.',
+    'Outside work I build infrastructure for payments on public blockchains: a Go indexer that tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once — the same correctness problems I dealt with in wallet and settlement systems. I also built Rally, a real-time multiplayer server with client prediction and reconnection, load tested to 500 concurrent players and ranked by an Elo leaderboard that can’t be farmed, and added an AI résumé-to-job fit check built on Claude to my job board.',
     'I pick up unfamiliar codebases quickly and work well remotely. I care about the things that make software trustworthy: tests, sensible authorisation, clear documentation and reliable deployments.',
   ],
   email: 'brianliu2924@gmail.com',
@@ -63,7 +63,8 @@ export const profile = {
 export const skills: { group: string; items: string[] }[] = [
   { group: 'Front end', items: ['TypeScript', 'React 19', 'Vue 3', 'PixiJS', 'Canvas 2D', 'Three.js', 'Zustand', 'TanStack Query', 'Vite', 'Tailwind CSS'] },
   { group: 'Back end', items: ['Node.js', 'Express', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
-  { group: 'Real-time', items: ['WebSockets', 'Authoritative game servers', 'Client prediction & reconciliation', 'Interpolation', 'Reconnection & session resume', 'Load testing'] },
+  { group: 'AI integration', items: ['Claude API', 'Structured outputs (JSON schema)', 'Prompt-injection-aware design', 'LLM cost control & caching', 'Graceful fallbacks'] },
+  { group: 'Real-time', items: ['WebSockets', 'Authoritative game servers', 'Client prediction & reconciliation', 'Interpolation', 'Reconnection & session resume', 'Elo ratings & anti-cheat', 'Load testing'] },
   { group: 'Web3', items: ['EVM / JSON-RPC', 'go-ethereum', 'ERC-20 event indexing', 'Reorg & finality handling', 'Base (OP Stack)', 'Wallet & settlement systems'] },
   { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
   { group: 'Cloud', items: ['AWS Lambda', 'SQS (FIFO, DLQ)', 'DynamoDB', 'S3 (multipart, lifecycle)', 'IAM & GitHub OIDC', 'CloudWatch', 'Terraform', 'Render', 'Neon'] },
@@ -266,7 +267,7 @@ export const projects: Project[] = [
     emoji: '🏓',
     colors: ['#6d28d9', '#a78bfa'],
     summary:
-      'A two-player real-time game built from scratch to show the netcode behind multiplayer games: a server-authoritative 60 Hz simulation, client-side prediction with reconciliation, interpolation, and matches that survive a dropped connection.',
+      'A two-player real-time game built from scratch to show the netcode behind multiplayer games: a server-authoritative 60 Hz simulation, client-side prediction with reconciliation, interpolation, matches that survive a dropped connection, and an Elo leaderboard that can’t be farmed.',
     problem:
       'Online games have to feel instant while the server stays the only source of truth, and players lose their connection all the time. Getting that right means sequence numbers, acknowledgements and reconnection rules that hold up under latency, jitter and abuse.',
     features: [
@@ -274,6 +275,7 @@ export const projects: Project[] = [
       'Client-side prediction reconciled against acknowledged inputs; ball and opponent interpolated 100 ms in the past',
       'Reconnection with session tokens: the match pauses for 15 s, resumes after a reload, otherwise forfeits',
       'Quick match, private room codes and a bot opponent',
+      'Elo leaderboard in PostgreSQL with anti-farming rules, showing why each unrated match didn’t count',
       'Rate limiting, message validation, size caps, heartbeats, backpressure and Prometheus metrics',
       'A netcode panel in the demo: add latency, turn prediction off, or drop the connection',
     ],
@@ -293,9 +295,14 @@ export const projects: Project[] = [
         detail:
           'A pure step function with a seeded RNG, shared by the server and the client predictor. The same inputs replay identically, and a swept collision test stops the ball tunnelling at top speed.',
       },
+      {
+        title: 'A leaderboard with nothing to fake',
+        detail:
+          'Results come from the server’s own simulation, so there is no score to submit. Rules stop farming (same player or network, instant leaves, idle opponents, 3 games per pair a day). Recording is idempotent and lock-ordered, so concurrent matches neither double-count nor deadlock. The client IP comes from Cloudflare’s header because Render passes a client-supplied X-Forwarded-For through, and a forged header was tested against the live site.',
+      },
     ],
-    stack: ['TypeScript', 'Node.js', 'WebSockets (ws)', 'Canvas', 'Vite', 'Prometheus', 'Docker'],
-    tests: '35 automated tests, including the server over real WebSockets (reconnects, forfeits, flooding, oversized frames, heartbeats), plus a load test',
+    stack: ['TypeScript', 'Node.js', 'WebSockets (ws)', 'PostgreSQL', 'Canvas', 'Vite', 'Prometheus', 'Docker'],
+    tests: '67 automated tests, including the server over real WebSockets (reconnects, forfeits, flooding, rated matches) and the leaderboard store against PostgreSQL, plus a load test',
     github: `https://github.com/${GITHUB_USER}/rally`,
     demo: 'https://rally-6flz.onrender.com',
     demoLabel: 'Play it',
@@ -307,7 +314,7 @@ export const projects: Project[] = [
     tagline: 'Job board for Australia & New Zealand',
     emoji: '🧭',
     colors: ['#0f766e', '#14b8a6'],
-    summary: 'A three-role job portal (seekers, employers, admins) with visa sponsorship filters, right-to-work profiles and an enforced hiring pipeline.',
+    summary: 'A three-role job portal (seekers, employers, admins) with visa sponsorship filters, right-to-work profiles, an enforced hiring pipeline and an AI résumé-to-job fit check built on Claude.',
     problem:
       'Working-holiday makers and new arrivals waste hours on listings they can’t legally take. Hireloop puts work rights and visa sponsorship front and centre for both candidates and employers.',
     features: [
@@ -315,14 +322,20 @@ export const projects: Project[] = [
       'Apply with a cover letter and track each application through a visual pipeline',
       'Employer dashboard with applicant counts and an applicant review workflow',
       'Admin moderation: suspend users and take down listings',
+      '“Check my fit”: compares a seeker’s profile and résumé with a listing to give a score, matched and missing skills, gaps and cover-letter tips (the free demo runs the keyword fallback)',
     ],
     highlights: [
       { title: 'Hiring workflow as a state machine', detail: 'Invalid status moves (e.g. Applied → Offered) are rejected with 409, and the API returns the allowed next steps so the UI only shows valid buttons.' },
       { title: 'Instant suspension', detail: 'Roles and suspension are checked against the database on every request rather than trusted from the JWT.' },
       { title: 'Indexed fuzzy search', detail: 'PostgreSQL pg_trgm GIN indexes keep ILIKE keyword search fast as listings grow.' },
+      {
+        title: 'LLM output you can rely on',
+        detail:
+          'Visa and location rules are checked in code, and the model never sees them. Claude returns schema-constrained JSON that is validated again. Results are cached by input hash, double clicks share one call, daily limits cap cost, and any failure falls back to keyword matching instead of an error.',
+      },
     ],
-    stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Docker'],
-    tests: '45 automated tests (API integration + component)',
+    stack: ['React', 'TypeScript', 'Node.js', 'Express', 'PostgreSQL', 'Prisma', 'Claude API', 'Docker'],
+    tests: '61 automated tests (API integration, unit and component), including every AI fallback path with a fake model client',
     github: `https://github.com/${GITHUB_USER}/job-portal`,
     screenshot: 'screenshots/hireloop.webp',
     demo: 'https://hireloop-demo.onrender.com',

@@ -56,7 +56,7 @@ export default function ProjectDetailPage() {
 
       <section className="stack">
         <h2>Technical highlights</h2>
-        <div className="highlights">
+        <div className={`highlights${project.highlights.length === 4 ? ' even' : ''}`}>
           {project.highlights.map((h) => (
             <div key={h.title} className="card">
               <h3>{h.title}</h3>
