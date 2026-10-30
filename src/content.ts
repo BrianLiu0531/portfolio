@@ -39,11 +39,11 @@ const GITHUB_USER = 'BrianLiu0531';
 export const profile = {
   name: 'Cheng-En (Brian) Liu',
   role: 'Full Stack Software Engineer',
-  location: 'Taichung, Taiwan · relocating to Australia',
+  location: 'Taichung, Taiwan · relocating to Australia or New Zealand',
   /** Where you want to work — used in the hero and on the contact page */
-  targetLocation: 'Melbourne or Brisbane',
+  targetLocation: 'Melbourne, Brisbane or New Zealand',
   // TODO: update once the 417 is granted, e.g. 'Full working rights (Working Holiday visa) until 2027'
-  workRights: 'Working Holiday visa (subclass 417) lodged · open to 482 sponsorship',
+  workRights: 'Working Holiday visa (subclass 417) lodged · open to 482 (AU) or AEWV (NZ) sponsorship',
   available: true,
   headline:
     '7+ years building web applications, back-end APIs and enterprise integrations with TypeScript, React, Node.js, Go, Python/Django and C#/.NET.',

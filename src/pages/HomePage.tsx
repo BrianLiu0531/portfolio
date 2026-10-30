@@ -67,7 +67,7 @@ export default function HomePage() {
       <section className="card cta">
         <div>
           <h2>Hiring a full stack engineer?</h2>
-          <p className="muted">I’m available for full-time and contract roles in {profile.targetLocation}, or remote across Australia.</p>
+          <p className="muted">I’m available for full-time and contract roles in {profile.targetLocation}, or remote across Australia or New Zealand.</p>
         </div>
         <Link to="/contact" className="btn btn-primary">
           Let’s talk
