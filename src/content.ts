@@ -50,7 +50,7 @@ export const profile = {
   about: [
     'I’m a full stack software engineer with more than seven years of experience across finance, ERP, IoT and gaming. I started working in software part-time while studying, and have since shipped everything from SAP Business ByDesign integrations to real-time multiplayer games.',
     'Most recently I ported 71 browser games to a TypeScript and React stack, built a shared Colyseus multiplayer server, and integrated a leaderboard service with anti-cheat checks into 30 games. Before that I led the Django REST back end of a video advertising-monitoring system, built a Go wallet service and load-tested provider integrations with k6.',
-    'Outside work I build infrastructure for payments on public blockchains: a Go indexer that tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once — the same correctness problems I dealt with in wallet and settlement systems. I also built Rally, a real-time multiplayer server with client prediction and reconnection, load tested to 500 concurrent players and ranked by an Elo leaderboard that can’t be farmed, and added an AI résumé-to-job fit check built on Claude to my job board.',
+    'Outside work I build infrastructure for payments on public blockchains, end to end. A Go indexer tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once. A ledger on AWS credits each deposit exactly once. Payout Guardrail controls money going out: passkey-approved payouts that a compromised server can’t redirect, reconciled against the chain. These are the same correctness problems I dealt with in wallet and settlement systems. I also built Rally, a real-time multiplayer server with client prediction and reconnection, load tested to 500 concurrent players and ranked by an Elo leaderboard that can’t be farmed, and added an AI résumé-to-job fit check built on Claude to my job board.',
     'I pick up unfamiliar codebases quickly and work well remotely. I care about the things that make software trustworthy: tests, sensible authorisation, clear documentation and reliable deployments.',
   ],
   email: 'brianliu2924@gmail.com',
@@ -62,10 +62,11 @@ export const profile = {
 
 export const skills: { group: string; items: string[] }[] = [
   { group: 'Front end', items: ['TypeScript', 'React 19', 'Vue 3', 'PixiJS', 'Canvas 2D', 'Three.js', 'Zustand', 'TanStack Query', 'Vite', 'Tailwind CSS'] },
-  { group: 'Back end', items: ['Node.js', 'Express', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
+  { group: 'Back end', items: ['Node.js', 'Express', 'Fastify', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
   { group: 'AI integration', items: ['Claude API', 'Structured outputs (JSON schema)', 'Prompt-injection-aware design', 'LLM cost control & caching', 'Graceful fallbacks'] },
   { group: 'Real-time', items: ['WebSockets', 'Authoritative game servers', 'Client prediction & reconciliation', 'Interpolation', 'Reconnection & session resume', 'Elo ratings & anti-cheat', 'Load testing'] },
-  { group: 'Web3', items: ['EVM / JSON-RPC', 'go-ethereum', 'ERC-20 event indexing', 'Reorg & finality handling', 'Base (OP Stack)', 'Wallet & settlement systems'] },
+  { group: 'Web3', items: ['EVM / JSON-RPC', 'go-ethereum', 'viem', 'ERC-20 event indexing', 'Reorg & finality handling', 'Base (OP Stack)', 'Wallet & settlement systems', 'Stablecoin payouts', 'Double-entry ledgers', 'Reconciliation'] },
+  { group: 'Security', items: ['Passkeys (WebAuthn)', 'Policy as code (Cedar)', 'AWS KMS signing', 'Sanctions screening (OFAC)', 'Least-privilege database roles', 'Tamper-evident audit logs', 'Supply-chain pinning'] },
   { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
   { group: 'Cloud', items: ['AWS Lambda', 'SQS (FIFO, DLQ)', 'DynamoDB', 'S3 (multipart, lifecycle)', 'IAM & GitHub OIDC', 'CloudWatch', 'Terraform', 'Render', 'Neon'] },
   { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Prometheus', 'Vitest', 'Go testing', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
@@ -141,6 +142,55 @@ export const experience: Experience[] = [
 ];
 
 export const projects: Project[] = [
+  {
+    slug: 'payout-guardrail',
+    name: 'Payout Guardrail',
+    tagline: 'Stablecoin payouts a compromised server can’t redirect',
+    emoji: '🛡️',
+    colors: ['#0f5132', '#34d399'],
+    summary:
+      'The outbound half of my USDC payment system. Every payout is an intent that approvers sign with passkeys, a separate signer service pays only exactly what was signed, and a reconciler checks approvals, signatures, the chain and a double-entry ledger against each other every 15 seconds.',
+    problem:
+      'Most payout losses aren’t broken cryptography. A compromised server swaps a recipient, a payee list is edited, an approval is replayed, or a hot key leaks. Multisig alone doesn’t stop a server that controls what approvers are shown and what gets signed.',
+    features: [
+      'Payout intents hashed canonically; approvers sign the hash with passkeys (WebAuthn, user verification required), and the requester never counts',
+      'Cedar policy: per-payout and rolling 24-hour limits, payee allowlist with a cooling-off period, 1-of/2-of approvals, OFAC sanctions screening, a circuit breaker',
+      'Separate signer that trusts nothing the API says: it recomputes the hash and checks passkeys, payees and the 24-hour total against its own records, then builds the transaction itself',
+      'Retry-safe worker: sign → broadcast → confirm → post the payout and gas fee to a PostgreSQL double-entry ledger',
+      'Four-way reconciliation that opens the breaker on any discrepancy, and a hash-chained audit log with checkpoints held by the signer',
+      'Attack lab: eleven attacks run live against the real signer, chain and ledger',
+      'Hot wallet key held in AWS KMS (tested against local-kms); install path for Base Sepolia',
+    ],
+    highlights: [
+      {
+        title: 'Eleven attacks, run for real',
+        detail:
+          'Swapped recipients, inflated amounts, replayed approvals, planted passkeys, self-approval, unvetted and OFAC-listed addresses, over-limit and double execution are all refused by the signer. A stolen key and a rewritten audit log are detected within one reconciliation cycle, and the breaker stops every payout until two approvers reset it.',
+      },
+      {
+        title: 'A ledger the database enforces',
+        detail:
+          'Per-currency balance, append-only history and single reversal are enforced by PostgreSQL constraints and deferred triggers, so raw SQL can’t break them either. Overdraft checks lock rows in a global order. Model-based property tests caught a removed FOR UPDATE in every run.',
+      },
+      {
+        title: 'Least privilege, tested',
+        detail:
+          'The API and signer run as separate database roles. The API can’t read the signer’s records, rewrite history or disable a trigger, and the end-to-end tests run as these roles and assert each denial.',
+      },
+      {
+        title: 'Honest about limits',
+        detail:
+          'A stolen key can still spend what the hot wallet holds. The design limits that to a float, moves the key into KMS, and makes any theft visible and halting. The README says so, along with what has and hasn’t been run on a public testnet.',
+      },
+    ],
+    stack: ['TypeScript', 'Fastify', 'PostgreSQL', 'Cedar', 'Passkeys', 'viem', 'AWS KMS'],
+    tests:
+      '99 automated tests against real PostgreSQL, a local EVM chain and local KMS: ledger property tests, every signer refusal, the full payout lifecycle and all eleven attacks',
+    github: `https://github.com/${GITHUB_USER}/payout-guardrail`,
+    demo: `https://github.com/${GITHUB_USER}/payout-guardrail#attack-lab`,
+    demoLabel: 'Watch the attack lab',
+    screenshot: 'screenshots/guardrail.webp',
+  },
   {
     slug: 'base-usdc-indexer',
     name: 'Base USDC Indexer',
