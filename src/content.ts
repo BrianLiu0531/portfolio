@@ -149,7 +149,7 @@ export const projects: Project[] = [
     emoji: '🛡️',
     colors: ['#0f5132', '#34d399'],
     summary:
-      'The outbound half of my USDC payment system. Every payout is an intent that approvers sign with passkeys, a separate signer service pays only exactly what was signed, and a reconciler checks approvals, signatures, the chain and a double-entry ledger against each other every 15 seconds.',
+      'The control centre of my USDC payment system. Every payout is an intent that approvers sign with passkeys. A separate signer pays only exactly what was signed, out of a vault contract with an on-chain daily limit. Deposits arrive from my indexer over a signed webhook. A reconciler checks approvals, signatures, the chain and a double-entry ledger against each other every 15 seconds.',
     problem:
       'Most payout losses aren’t broken cryptography. A compromised server swaps a recipient, a payee list is edited, an approval is replayed, or a hot key leaks. Multisig alone doesn’t stop a server that controls what approvers are shown and what gets signed.',
     features: [
@@ -157,6 +157,8 @@ export const projects: Project[] = [
       'Cedar policy: per-payout and rolling 24-hour limits, payee allowlist with a cooling-off period, 1-of/2-of approvals, OFAC sanctions screening, a circuit breaker',
       'Separate signer that trusts nothing the API says: it recomputes the hash and checks passkeys, payees and the 24-hour total against its own records, then builds the transaction itself',
       'Retry-safe worker: sign → broadcast → confirm → post the payout and gas fee to a PostgreSQL double-entry ledger',
+      'PayoutVault contract: the hot key can only pay within an on-chain daily limit, once per intent; a multisig owner controls everything else',
+      'Deposits from base-usdc-indexer over an HMAC-signed webhook: credited exactly once, reversed on reorg, flagged if never reported',
       'Four-way reconciliation that opens the breaker on any discrepancy, and a hash-chained audit log with checkpoints held by the signer',
       'Attack lab: eleven attacks run live against the real signer, chain and ledger',
       'Hot wallet key held in AWS KMS (tested against local-kms); install path for Base Sepolia',
@@ -178,17 +180,17 @@ export const projects: Project[] = [
           'The API and signer run as separate database roles. The API can’t read the signer’s records, rewrite history or disable a trigger, and the end-to-end tests run as these roles and assert each denial.',
       },
       {
-        title: 'Honest about limits',
+        title: 'A stolen key, capped on chain',
         detail:
-          'A stolen key can still spend what the hot wallet holds. The design limits that to a float, moves the key into KMS, and makes any theft visible and halting. The README says so, along with what has and hasn’t been run on a public testnet.',
+          'The float sits in a vault contract, so the signer’s key can only pay within a daily limit and once per intent. In the attack lab the thief’s full drain is refused by the contract, the loss stops at the limit, reconciliation flags it and payouts halt. The README is explicit about what that still allows, and about what has and hasn’t run on a public testnet.',
       },
     ],
     stack: ['TypeScript', 'Fastify', 'PostgreSQL', 'Cedar', 'Passkeys', 'viem', 'AWS KMS'],
     tests:
-      '99 automated tests against real PostgreSQL, a local EVM chain and local KMS: ledger property tests, every signer refusal, the full payout lifecycle and all eleven attacks',
+      '111 automated tests against real PostgreSQL, a local EVM chain and local KMS: ledger property tests, every signer refusal, the vault contract, deposits, the full payout lifecycle and all eleven attacks',
     github: `https://github.com/${GITHUB_USER}/payout-guardrail`,
-    demo: `https://github.com/${GITHUB_USER}/payout-guardrail#attack-lab`,
-    demoLabel: 'Watch the attack lab',
+    demo: 'https://codespaces.new/BrianLiu0531/payout-guardrail?quickstart=1',
+    demoLabel: 'Run it in Codespaces',
     screenshot: 'screenshots/guardrail.webp',
   },
   {
@@ -206,6 +208,7 @@ export const projects: Project[] = [
       'Detects reorgs by parent hash, walks back to the common ancestor and rewinds atomically, keeping an audit trail',
       'Transactional outbox emits transfer.confirmed (and compensating transfer.reverted) events with deterministic IDs',
       'Reconciles indexed balances against balanceOf on chain and alerts on any drift',
+      'Delivers events to SQS FIFO or to an HMAC-signed webhook; Payout Guardrail’s ledger credits deposits from it',
       'HTTP API, Prometheus metrics, multi-RPC failover, adaptive log ranges and rate limiting',
     ],
     highlights: [
@@ -226,7 +229,7 @@ export const projects: Project[] = [
       },
     ],
     stack: ['Go', 'go-ethereum', 'PostgreSQL', 'Prometheus', 'Docker', 'GitHub Actions'],
-    tests: '30 automated tests plus a randomised reorg simulation (against PostgreSQL); 42 edge cases documented',
+    tests: '34 automated tests plus a randomised reorg simulation (against PostgreSQL); 42 edge cases documented',
     github: `https://github.com/${GITHUB_USER}/base-usdc-indexer`,
     demo: 'https://codespaces.new/BrianLiu0531/base-usdc-indexer?quickstart=1',
     demoLabel: 'Run it in Codespaces',
