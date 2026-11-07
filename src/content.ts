@@ -50,7 +50,7 @@ export const profile = {
   about: [
     'I’m a full stack software engineer with more than seven years of experience across finance, ERP, IoT and gaming. I started working in software part-time while studying, and have since shipped everything from SAP Business ByDesign integrations to real-time multiplayer games.',
     'Most recently I ported 71 browser games to a TypeScript and React stack, built a shared Colyseus multiplayer server, and integrated a leaderboard service with anti-cheat checks into 30 games. Before that I led the Django REST back end of a video advertising-monitoring system, built a Go wallet service and load-tested provider integrations with k6.',
-    'Outside work I build infrastructure for payments on public blockchains, end to end. A Go indexer tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once. A ledger on AWS credits each deposit exactly once. Payout Guardrail controls money going out: passkey-approved payouts that a compromised server can’t redirect, reconciled against the chain. These are the same correctness problems I dealt with in wallet and settlement systems. I also built Rally, a real-time multiplayer server with client prediction and reconnection, load tested to 500 concurrent players and ranked by an Elo leaderboard that can’t be farmed, and added an AI résumé-to-job fit check built on Claude to my job board.',
+    'Outside work I build infrastructure for payments on public blockchains, end to end. A Go indexer tracks USDC deposits on Base, survives chain reorganisations and records every transfer exactly once. A ledger on AWS credits each deposit exactly once. Payout Guardrail controls money going out: passkey-approved payouts that a compromised server can’t redirect, reconciled against the chain. These are the same correctness problems I dealt with in wallet and settlement systems. Most recently I built LendLoop, a Next.js, Convex and Clerk app whose n8n automations are signed in both directions and safe to retry. I also built Rally, a real-time multiplayer server with client prediction and reconnection, load tested to 500 concurrent players and ranked by an Elo leaderboard that can’t be farmed, and added an AI résumé-to-job fit check built on Claude to my job board.',
     'I pick up unfamiliar codebases quickly and work well remotely. I care about the things that make software trustworthy: tests, sensible authorisation, clear documentation and reliable deployments.',
   ],
   email: 'brianliu2924@gmail.com',
@@ -61,15 +61,15 @@ export const profile = {
 };
 
 export const skills: { group: string; items: string[] }[] = [
-  { group: 'Front end', items: ['TypeScript', 'React 19', 'Vue 3', 'PixiJS', 'Canvas 2D', 'Three.js', 'Zustand', 'TanStack Query', 'Vite', 'Tailwind CSS'] },
-  { group: 'Back end', items: ['Node.js', 'Express', 'Fastify', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET'] },
+  { group: 'Front end', items: ['TypeScript', 'React 19', 'Next.js (App Router)', 'Vue 3', 'PixiJS', 'Canvas 2D', 'Three.js', 'Zustand', 'TanStack Query', 'Vite', 'Tailwind CSS'] },
+  { group: 'Back end', items: ['Node.js', 'Express', 'Fastify', 'Colyseus (WebSockets)', 'Python', 'Django REST Framework', 'PHP / Laravel', 'Go (Fiber, GORM)', 'C# / ASP.NET', 'Convex'] },
   { group: 'AI integration', items: ['Claude API', 'Structured outputs (JSON schema)', 'Prompt-injection-aware design', 'LLM cost control & caching', 'Graceful fallbacks'] },
   { group: 'Real-time', items: ['WebSockets', 'Authoritative game servers', 'Client prediction & reconciliation', 'Interpolation', 'Reconnection & session resume', 'Elo ratings & anti-cheat', 'Load testing'] },
   { group: 'Web3', items: ['EVM / JSON-RPC', 'go-ethereum', 'viem', 'ERC-20 event indexing', 'Reorg & finality handling', 'Base (OP Stack)', 'Wallet & settlement systems', 'Stablecoin payouts', 'Double-entry ledgers', 'Reconciliation'] },
-  { group: 'Security', items: ['Passkeys (WebAuthn)', 'Policy as code (Cedar)', 'AWS KMS signing', 'Sanctions screening (OFAC)', 'Least-privilege database roles', 'Tamper-evident audit logs', 'Supply-chain pinning'] },
-  { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'RFID readers'] },
-  { group: 'Cloud', items: ['AWS Lambda', 'SQS (FIFO, DLQ)', 'DynamoDB', 'S3 (multipart, lifecycle)', 'IAM & GitHub OIDC', 'CloudWatch', 'Terraform', 'Render', 'Neon'] },
-  { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Prometheus', 'Vitest', 'Go testing', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
+  { group: 'Security', items: ['Passkeys (WebAuthn)', 'Clerk auth & RBAC', 'HMAC-signed webhooks', 'CSP & security headers', 'Policy as code (Cedar)', 'AWS KMS signing', 'Sanctions screening (OFAC)', 'Least-privilege database roles', 'Tamper-evident audit logs', 'Supply-chain pinning'] },
+  { group: 'Data & integration', items: ['PostgreSQL', 'MySQL', 'SQL Server', 'Prisma', 'Entity Framework', 'SAP Business ByDesign', 'Payment & e-invoice APIs', 'n8n workflows', 'RFID readers'] },
+  { group: 'Cloud', items: ['AWS Lambda', 'SQS (FIFO, DLQ)', 'DynamoDB', 'S3 (multipart, lifecycle)', 'IAM & GitHub OIDC', 'CloudWatch', 'Terraform', 'Vercel', 'Render', 'Neon'] },
+  { group: 'DevOps & quality', items: ['Docker', 'Nginx / Caddy', 'GitHub Actions', 'GitLab CI/CD', 'Prometheus', 'Vitest', 'Playwright', 'Go testing', 'PHPUnit', 'k6 load testing', 'Scrum (PSM I)'] },
 ];
 
 export const experience: Experience[] = [
@@ -192,6 +192,50 @@ export const projects: Project[] = [
     demo: 'https://codespaces.new/BrianLiu0531/payout-guardrail?quickstart=1',
     demoLabel: 'Run it in Codespaces',
     screenshot: 'screenshots/guardrail.webp',
+  },
+  {
+    slug: 'lendloop',
+    name: 'LendLoop',
+    tagline: 'Neighbourhood tool lending, with automation you can trust',
+    emoji: '🧰',
+    colors: ['#2d6a4f', '#95d5b2'],
+    summary:
+      'Neighbours list tools, request them for a date range, and approve, decline and return loans. Notifications and daily overdue reminders run in self-hosted n8n, signed in both directions, and every loan shows what the automation last did for it.',
+    problem:
+      'App-to-workflow integrations usually fail quietly: an unsigned webhook anyone can call, a retry that sends the same reminder twice, a scheduled job that stops and nobody notices. Access rules that only live in the UI are another common gap.',
+    features: [
+      'Next.js 16 App Router, Clerk sign-in and a Convex backend; the public page shows only tool names and categories',
+      'Role-based access (user / admin) enforced in every Convex function through pure, unit-tested policy functions',
+      'Transactional outbox: every loan change queues a minimal, signed event that is delivered to n8n with retries, backoff and a dead-letter queue',
+      'Daily n8n sweep fetches overdue loans from a signed Convex HTTP endpoint and writes reminders back idempotently',
+      'n8n error workflow and a watchdog that flags a sweep that silently stopped; failures surface on an admin automation dashboard with one-click retry',
+      'Up to four photos per listing: resized and re-encoded in the browser, which strips EXIF/GPS before upload',
+      'Admin moderation with an audit log, Trusted Lender badges, and contact details shared only while a loan is approved',
+    ],
+    highlights: [
+      {
+        title: 'Signed in both directions',
+        detail:
+          'HMAC-SHA256 with separate keys per direction, a timestamp window, and a signature over the method, path and query, so a captured request can’t be replayed against another endpoint. Secrets live in environment variables and n8n credentials, and the export script fails if a secret value appears in any workflow JSON.',
+      },
+      {
+        title: 'Retries that can’t duplicate',
+        detail:
+          'Events carry stable IDs that n8n de-duplicates, and reminder write-backs use an idempotency key, so n8n’s own retries and Convex’s redeliveries are always safe. Verified end to end by taking the mail server down mid-run and watching the event deliver on attempt four.',
+      },
+      {
+        title: 'Privacy by default',
+        detail:
+          'n8n receives only what the email needs (no notes, no descriptions, no counterpart email). Photo metadata never leaves the device. Anonymous visitors see names and categories only.',
+      },
+    ],
+    stack: ['Next.js', 'TypeScript', 'Convex', 'Clerk', 'n8n', 'Docker', 'Tailwind CSS'],
+    tests:
+      '41 automated tests (convex-test + Vitest): the access matrix through the real API, signature rejection, idempotent write-backs, delivery retry classification and photo upload rules',
+    github: `https://github.com/${GITHUB_USER}/lendloop`,
+    demo: 'https://lendloop-brianliu.vercel.app',
+    demoLabel: 'Live demo (sign up with any email)',
+    screenshot: 'screenshots/lendloop.webp',
   },
   {
     slug: 'base-usdc-indexer',
