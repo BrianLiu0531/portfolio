@@ -60,7 +60,7 @@ export default function AboutPage() {
           {skills.map((g) => (
             <li key={g.group}>
               <h3>{g.group}</h3>
-              <p>{g.items.join(' · ')}</p>
+              <p>{g.items.join(', ')}</p>
             </li>
           ))}
         </ul>

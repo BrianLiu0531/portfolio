@@ -1,6 +1,6 @@
 /**
  * ✏️  All site content lives in this file.
- * Replace every value marked TODO with your own details — no other file needs to change.
+ * Replace every value marked TODO with your own details; no other file needs to change.
  */
 
 export interface Project {
@@ -39,14 +39,14 @@ const GITHUB_USER = 'BrianLiu0531';
 export const profile = {
   name: 'Cheng-En (Brian) Liu',
   role: 'Full Stack Software Engineer',
-  location: 'Taichung, Taiwan · relocating to Australia or New Zealand',
-  /** Where you want to work — used in the hero and on the contact page */
+  location: 'Taichung, Taiwan (relocating to Australia or New Zealand)',
+  /** Where you want to work, used in the hero and on the contact page */
   targetLocation: 'Melbourne, Brisbane or New Zealand',
   // TODO: update once the 417 is granted, e.g. 'Full working rights (Working Holiday visa) until 2027'
-  workRights: 'Working Holiday visa (subclass 417) lodged · open to 482 (AU) or AEWV (NZ) sponsorship',
+  workRights: 'Working Holiday visa (subclass 417) lodged, and open to 482 (AU) or AEWV (NZ) sponsorship',
   available: true,
-  /** The home page's big line; the part in the second string is set in italics */
-  pitch: ['I build software that', 'has to be right.'] as [string, string],
+  /** The home page's big line */
+  pitch: 'I build software that has to be right.',
   headline:
     '7+ years building web applications, back-end APIs and enterprise integrations with TypeScript, React, Node.js, Go, Python/Django and C#/.NET.',
   about: [
@@ -79,7 +79,7 @@ export const experience: Experience[] = [
     title: 'Software Engineer',
     org: 'Tai Kok Tsui Consulting Co., Ltd. (GameGen)',
     location: 'Taichung, Taiwan',
-    period: 'May 2026 — Oct 2026',
+    period: 'May 2026 to Oct 2026',
     points: [
       'Ported 71 HTML5 and native games from Construct 2, Godot, Unity, Phaser and Cocos2d-x to React, TypeScript and PixiJS; sole named developer on 64.',
       'Built a shared real-time multiplayer server (Node.js, Colyseus, pnpm monorepo) with server-authoritative results for 1v1 online modes.',
@@ -90,7 +90,7 @@ export const experience: Experience[] = [
     title: 'Full Stack Engineer',
     org: 'Faith Technology Co., Ltd.',
     location: 'Taichung, Taiwan',
-    period: 'Oct 2025 — Apr 2026',
+    period: 'Oct 2025 to Apr 2026',
     points: [
       'Lead back-end developer of a video advertising-monitoring system for the Institute for Information Industry (Django REST Framework, MySQL).',
       'Built role-based access control, audit logging and production security controls; deployed with Docker, Nginx and GitHub Actions CI/CD.',
@@ -101,7 +101,7 @@ export const experience: Experience[] = [
     title: 'Back-end Engineer',
     org: 'Yongzhou Digital Technology Co., Ltd.', // TODO: confirm the official English name
     location: 'Taipei, Taiwan',
-    period: 'Nov 2024 — Sep 2025',
+    period: 'Nov 2024 to Sep 2025',
     points: [
       'Integrated 18+ third-party game provider APIs (PHP, Laravel): transfer wallets, bet-report sync and settlement.',
       'Built a Go wallet service with transaction rollback, and wrote k6 load tests for 12 providers’ transfer flows.',
@@ -111,14 +111,14 @@ export const experience: Experience[] = [
     title: 'R&D Engineer',
     org: 'Servconn Systems Co., Ltd.',
     location: 'New Taipei, Taiwan',
-    period: 'Jun 2024 — Sep 2024',
+    period: 'Jun 2024 to Sep 2024',
     points: ['Developed a C# WPF application and APIs for RFID-based inventory for semiconductor manufacturers (Impinj, Zebra readers).'],
   },
   {
     title: 'Assistant Systems Analyst',
     org: 'Tata Consultancy Services (client: Taishin International Bank)',
     location: 'Taiwan (remote)',
-    period: 'Jan 2023 — May 2024',
+    period: 'Jan 2023 to May 2024',
     points: [
       'Migrated banking applications from WinForms to ASP.NET WebForms with modular C# components and SQL Server stored procedures.',
       'One of two engineers retained from the original 12-person team through to project completion.',
@@ -128,7 +128,7 @@ export const experience: Experience[] = [
     title: 'Associate Software Engineer',
     org: 'ISCOM Information Co., Ltd.',
     location: 'Taichung, Taiwan',
-    period: 'Aug 2018 — Dec 2022',
+    period: 'Aug 2018 to Dec 2022',
     points: [
       'Built modules for a Django finance portal integrated with SAP Business ByDesign via SOAP, including journal-entry import with bulk posting.',
       'Customised an e-invoice platform and SAP print forms for multiple clients; contributed to ASP.NET MVC portals and gathered B2B requirements.',
@@ -138,7 +138,7 @@ export const experience: Experience[] = [
     title: 'Information Management (undergraduate, evening program)',
     org: 'Hsiuping University of Science and Technology',
     location: 'Taichung, Taiwan',
-    period: '2018 — 2022',
+    period: '2018 to 2022',
     points: ['Studied part-time while working; degree not completed.'],
   },
 ];
@@ -295,7 +295,7 @@ export const projects: Project[] = [
       'SQS FIFO with one message group per transfer, so a reorg revert never overtakes its credit',
       'Partial batch failures and a dead-letter queue with CloudWatch → SNS alarms',
       'Single-table DynamoDB ledger: balances, ledger lines and idempotency markers with TTL',
-      'Terraform for everything, deployed from GitHub Actions through OIDC — no long-lived AWS keys',
+      'Terraform for everything, deployed from GitHub Actions through OIDC, with no long-lived AWS keys',
       'Runs locally with ElasticMQ and DynamoDB Local, using the same handler as the Lambda',
     ],
     highlights: [
@@ -328,7 +328,7 @@ export const projects: Project[] = [
     summary:
       'Upload large files over unreliable connections: pause, lose the network or close the tab, and the upload continues from the last byte the server stored. Implements the tus protocol in Django on top of S3 multipart uploads.',
     problem:
-      'A plain file upload starts again from zero when the connection drops, and a naïve resumable endpoint silently corrupts files when a retry overlaps the original request — the check-then-append race I once shipped in a prototype.',
+      'A plain file upload starts again from zero when the connection drops, and a naïve resumable endpoint silently corrupts files when a retry overlaps the original request. That is the check-then-append race I once shipped in a prototype.',
     features: [
       'tus 1.0 with creation, expiration, termination and checksum (md5/sha1/sha256) extensions',
       'Keeps the bytes of an interrupted request and resumes from the server’s offset; survives closing the tab',
@@ -417,7 +417,7 @@ export const projects: Project[] = [
     problem:
       'Working-holiday makers and new arrivals waste hours on listings they can’t legally take. Hireloop puts work rights and visa sponsorship front and centre for both candidates and employers.',
     features: [
-      'Search by keyword, state/region, salary, work type and visa sponsorship — with shareable URL state',
+      'Search by keyword, state/region, salary, work type and visa sponsorship, with shareable URL state',
       'Apply with a cover letter and track each application through a visual pipeline',
       'Employer dashboard with applicant counts and an applicant review workflow',
       'Admin moderation: suspend users and take down listings',
@@ -459,7 +459,7 @@ export const projects: Project[] = [
       'Admin student records: create, edit, enrol and remove, with auto student numbers',
     ],
     highlights: [
-      { title: 'Quiz answers never reach the browser', detail: 'Students only learn whether each answer was right, so repeated attempts can’t be gamed — verified by an integration test.' },
+      { title: 'Quiz answers never reach the browser', detail: 'Students only learn whether each answer was right, so repeated attempts can’t be gamed. An integration test verifies it.' },
       { title: 'Progress without N+1 queries', detail: 'Roster progress for any class size is computed in a fixed number of grouped queries.' },
       { title: 'One authorisation module', detail: 'Every content route resolves its parent course and goes through the same “can teach / can learn” checks.' },
     ],

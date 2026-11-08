@@ -16,7 +16,6 @@ export function ProjectCover({ project, large }: { project: Project; large?: boo
   // Typographic cover until a real screenshot is added
   return (
     <div className={`cover cover-generated ${large ? 'cover-large' : ''}`} aria-hidden>
-      <span className="cover-tag">{project.stack.slice(0, 3).join(' · ')}</span>
       <span className="cover-name">{project.name}</span>
     </div>
   );
@@ -25,16 +24,18 @@ export function ProjectCover({ project, large }: { project: Project; large?: boo
 function ProjectLinks({ project }: { project: Project }) {
   return (
     <div className="project-links">
-      <Link to={`/projects/${project.slug}`} className="link-arrow">
-        Case study <span className="arr" aria-hidden>→</span>
+      <Link to={`/projects/${project.slug}`} className="text-link">
+        Read the case study
       </Link>
       {project.demo && (
-        <a href={project.demo} className="link-arrow" target="_blank" rel="noreferrer noopener">
-          {project.demoLabel ?? 'Live demo'} <span aria-hidden>↗</span>
+        <a href={project.demo} className="text-link" target="_blank" rel="noreferrer noopener">
+          {project.demoLabel ?? 'Live demo'}
+          <span className="visually-hidden"> (opens in a new tab)</span>
         </a>
       )}
-      <a href={project.github} className="link-arrow" target="_blank" rel="noreferrer noopener">
-        Code <span aria-hidden>↗</span>
+      <a href={project.github} className="text-link" target="_blank" rel="noreferrer noopener">
+        Source on GitHub
+        <span className="visually-hidden"> (opens in a new tab)</span>
       </a>
     </div>
   );
@@ -48,10 +49,10 @@ export function FeatureProject({ project }: { project: Project }) {
         <ProjectCover project={project} />
       </Link>
       <div className="feature-body">
-        <p className="kicker">{project.tagline}</p>
         <h3>
           <Link to={`/projects/${project.slug}`}>{project.name}</Link>
         </h3>
+        <p className="subhead">{project.tagline}</p>
         <p className="muted">{project.summary}</p>
         <ul className="chips" aria-label="Tech stack">
           {project.stack.map((s) => (
@@ -71,10 +72,10 @@ export default function ProjectCard({ project }: { project: Project }) {
         <ProjectCover project={project} />
       </Link>
       <div className="project-body">
-        <p className="kicker">{project.tagline}</p>
         <h3>
           <Link to={`/projects/${project.slug}`}>{project.name}</Link>
         </h3>
+        <p className="subhead">{project.tagline}</p>
         <p className="muted">{project.summary}</p>
         <ul className="chips" aria-label="Tech stack">
           {project.stack.map((s) => (

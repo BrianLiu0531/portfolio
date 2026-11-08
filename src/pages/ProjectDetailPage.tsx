@@ -17,21 +17,21 @@ export default function ProjectDetailPage() {
     <article className="stack-lg narrow">
       <div className="stack">
         <Link to="/projects" className="muted small">
-          ← All projects
+          Back to all projects
         </Link>
-        <h1>
-          {project.name}
-        </h1>
-        <p className="kicker">{project.tagline}</p>
+        <h1>{project.name}</h1>
+        <p className="subhead">{project.tagline}</p>
         <p className="lead">{project.summary}</p>
         <div className="row">
           {project.demo && (
             <a href={project.demo} className="btn btn-primary" target="_blank" rel="noreferrer noopener">
-              {project.demoLabel ?? 'Live demo'} ↗
+              {project.demoLabel ?? 'Live demo'}
+              <span className="visually-hidden"> (opens in a new tab)</span>
             </a>
           )}
           <a href={project.github} className={`btn ${project.demo ? '' : 'btn-primary'}`} target="_blank" rel="noreferrer noopener">
-            Source code ↗
+            Source code
+            <span className="visually-hidden"> (opens in a new tab)</span>
           </a>
         </div>
         {project.demo?.includes('onrender.com') && (
@@ -99,9 +99,8 @@ export default function ProjectDetailPage() {
       {next.slug !== project.slug && (
         <Link to={`/projects/${next.slug}`} className="card next-project">
           <span className="muted small">Next project</span>
-          <strong>
-            {next.name} <span className="muted">· {next.tagline}</span> →
-          </strong>
+          <strong>{next.name}</strong>
+          <span className="muted">{next.tagline}</span>
         </Link>
       )}
     </article>

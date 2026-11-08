@@ -40,7 +40,7 @@ export default function ContactForm({ to, endpoint, openMail = (href) => window.
   if (status === 'sent') {
     return (
       <div className="card form-done" role="status">
-        <h2>Thanks — message sent ✓</h2>
+        <h2>Message sent. Thank you.</h2>
         <p className="muted">I’ll get back to you within a couple of days.</p>
         <button className="btn" onClick={() => setStatus('idle')}>
           Send another

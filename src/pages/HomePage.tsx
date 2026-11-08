@@ -15,18 +15,10 @@ export default function HomePage() {
   return (
     <div className="stack-lg">
       <section className="hero" aria-labelledby="hero-title">
-        {profile.available && (
-          <p className="availability">
-            <span className="dot" aria-hidden /> Open to work in {profile.targetLocation}
-          </p>
-        )}
-        <h1 id="hero-title">
-          {profile.pitch[0]} <em>{profile.pitch[1]}</em>
-        </h1>
+        <h1 id="hero-title">{profile.pitch}</h1>
         <p className="lead">
           I’m {profile.name}, a {profile.role.toLowerCase()}. {profile.headline}
         </p>
-        <p className="muted small">{profile.workRights}</p>
         <div className="row">
           <Link to="/projects" className="btn btn-primary">
             See the projects
@@ -50,8 +42,12 @@ export default function HomePage() {
             <dd>public, documented, and tested in CI on every push</dd>
           </div>
           <div>
-            <dt>UTC+8</dt>
-            <dd>working remotely with Australian and New Zealand hours</dd>
+            <dt>{profile.available ? 'Open to work' : 'UTC+8'}</dt>
+            <dd>
+              {profile.available
+                ? `in ${profile.targetLocation}. ${profile.workRights}.`
+                : 'working remotely with Australian and New Zealand hours'}
+            </dd>
           </div>
         </dl>
       </section>
@@ -59,8 +55,8 @@ export default function HomePage() {
       <section className="stack" aria-labelledby="work">
         <div className="section-head">
           <h2 id="work">Selected work</h2>
-          <Link to="/projects" className="link-arrow">
-            All projects <span className="arr" aria-hidden>→</span>
+          <Link to="/projects" className="text-link">
+            See all {projects.length} projects
           </Link>
         </div>
         <div className="featured">
@@ -83,7 +79,7 @@ export default function HomePage() {
           {skills.map((g) => (
             <li key={g.group}>
               <h3>{g.group}</h3>
-              <p>{g.items.join(' · ')}</p>
+              <p>{g.items.join(', ')}</p>
             </li>
           ))}
         </ul>

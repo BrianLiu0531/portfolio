@@ -19,13 +19,13 @@ export default function ContactPage() {
           <li>
             <span className="label">LinkedIn</span>
             <a href={profile.linkedin} target="_blank" rel="noreferrer noopener">
-              Cheng-En Liu ↗
+              Cheng-En Liu
             </a>
           </li>
           <li>
             <span className="label">GitHub</span>
             <a href={profile.github} target="_blank" rel="noreferrer noopener">
-              {profile.github.replace('https://', '')} ↗
+              {profile.github.replace('https://', '')}
             </a>
           </li>
           <li>
