@@ -56,16 +56,14 @@ export default function AboutPage() {
 
       <section className="stack">
         <h2>Skills</h2>
-        {skills.map((g) => (
-          <div key={g.group} className="skill-row">
-            <h3>{g.group}</h3>
-            <ul className="chips">
-              {g.items.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <ul className="rows">
+          {skills.map((g) => (
+            <li key={g.group}>
+              <h3>{g.group}</h3>
+              <p>{g.items.join(' · ')}</p>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <div className="row">

@@ -45,6 +45,8 @@ export const profile = {
   // TODO: update once the 417 is granted, e.g. 'Full working rights (Working Holiday visa) until 2027'
   workRights: 'Working Holiday visa (subclass 417) lodged · open to 482 (AU) or AEWV (NZ) sponsorship',
   available: true,
+  /** The home page's big line; the part in the second string is set in italics */
+  pitch: ['I build software that', 'has to be right.'] as [string, string],
   headline:
     '7+ years building web applications, back-end APIs and enterprise integrations with TypeScript, React, Node.js, Go, Python/Django and C#/.NET.',
   about: [

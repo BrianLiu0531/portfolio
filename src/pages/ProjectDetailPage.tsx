@@ -20,8 +20,9 @@ export default function ProjectDetailPage() {
           ← All projects
         </Link>
         <h1>
-          {project.name} <span className="muted thin">— {project.tagline}</span>
+          {project.name}
         </h1>
+        <p className="kicker">{project.tagline}</p>
         <p className="lead">{project.summary}</p>
         <div className="row">
           {project.demo && (
@@ -99,7 +100,7 @@ export default function ProjectDetailPage() {
         <Link to={`/projects/${next.slug}`} className="card next-project">
           <span className="muted small">Next project</span>
           <strong>
-            {next.emoji} {next.name} — {next.tagline} →
+            {next.name} <span className="muted">· {next.tagline}</span> →
           </strong>
         </Link>
       )}

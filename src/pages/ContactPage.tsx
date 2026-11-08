@@ -13,22 +13,28 @@ export default function ContactPage() {
         </p>
         <ul className="contact-list">
           <li>
-            <span aria-hidden>✉️</span> <a href={`mailto:${profile.email}`}>{profile.email}</a>
+            <span className="label">Email</span>
+            <a href={`mailto:${profile.email}`}>{profile.email}</a>
           </li>
           <li>
-            <span aria-hidden>💼</span>{' '}
+            <span className="label">LinkedIn</span>
             <a href={profile.linkedin} target="_blank" rel="noreferrer noopener">
-              LinkedIn
+              Cheng-En Liu ↗
             </a>
           </li>
           <li>
-            <span aria-hidden>🐙</span>{' '}
+            <span className="label">GitHub</span>
             <a href={profile.github} target="_blank" rel="noreferrer noopener">
-              GitHub
+              {profile.github.replace('https://', '')} ↗
             </a>
           </li>
           <li>
-            <span aria-hidden>📍</span> {profile.location} · {profile.workRights}
+            <span className="label">Based in</span>
+            <span>
+              {profile.location}
+              <br />
+              <span className="muted small">{profile.workRights}</span>
+            </span>
           </li>
         </ul>
       </section>
